@@ -22,7 +22,7 @@ Future<List<OrderModel>> fetchOrders(String sessionId) async {
   }
 }
 
-Future<List<DetailOrderModel>> fetchDetailOrder(
+Future<List<ProductModel>> fetchDetailOrder(
   String sessionId,
   int orderId,
 ) async {
@@ -39,8 +39,11 @@ Future<List<DetailOrderModel>> fetchDetailOrder(
     final map = jsonDecode(response.body) as Map<String, dynamic>;
     final results = map['results'] as List<dynamic>;
     print("Result: ${results}");
+
     return results
-        .map((json) => DetailOrderModel.fromJson(json)) // convert sang model
+        .map(
+          (json) => ProductModel.fromJson(json["Product"]),
+        ) // convert sang model
         .toList();
   } else {
     print("Lỗi---------------------: ${response.statusCode} ${response.body}");

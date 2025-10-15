@@ -56,7 +56,7 @@ class _CustomerScreenState extends State<CustomerScreen> {
                   context.read<AccountProvider>().searchAccount(value);
                 },
               )
-            : Text("List Customers"),
+            : Text("Quản Lý Customers"),
         actions: [
           IconButton(
             icon: Icon(search ? Icons.close : Icons.search),
@@ -144,10 +144,6 @@ class _CustomerScreenState extends State<CustomerScreen> {
                                   pro.reset();
                                   pro.fetchNextPage();
                                   showTopSnackBar(context, "Delete Success");
-                                  // Ví dụ: gọi Provider để reload danh sách
-                                  // final provider = Provider.of<ProductProvider>(context, listen: false);
-                                  // await provider.deleteProduct(product.id);
-                                  // provider.reloadProducts();
                                 },
                               );
                             },
@@ -180,10 +176,9 @@ class _CustomerScreenState extends State<CustomerScreen> {
                   );
                   customer.reset();
                   customer.fetchNextPage();
-                  // hoặc pro.reset() + pro.fetchNextPage();
                 }
               },
-              icon: Icon(Icons.add_circle, color: Colors.blue),
+              icon: Icon(Icons.add_circle, color: Colors.blue, size: 40),
             ),
           ),
         ],

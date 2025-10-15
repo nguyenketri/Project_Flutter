@@ -76,6 +76,10 @@ class ProductProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void changeListP() {
+    _products = [];
+  }
+
   void reset() {
     _products = [];
     _skip = 0;

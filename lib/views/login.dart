@@ -17,7 +17,7 @@ class _LoginScreenState extends State<LoginScreen> {
     text: "123456",
   );
   bool loading = false;
-  bool _obscureText = false;
+  bool _obscureText = true;
   void _login() async {
     if (_formKey.currentState!.validate()) {
       // input hợp lệ
@@ -47,58 +47,81 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Login POS365")),
+      appBar: AppBar(title: Text("")),
       body: Form(
         key: _formKey,
-        child: Column(
-          children: <Widget>[
-            TextFormField(
-              controller: _usernameController,
-              decoration: const InputDecoration(
-                labelText: "User Name",
-                prefixIcon: Icon(Icons.person),
-              ),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter your name';
-                }
-                return null;
-              },
-            ),
-            const SizedBox(height: 16),
-            // 🔹 Password
-            TextFormField(
-              controller: _passwordController,
-              obscureText: _obscureText,
-              decoration: InputDecoration(
-                labelText: "Mật khẩu",
-                prefixIcon: Icon(Icons.lock),
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    _obscureText ? Icons.visibility : Icons.visibility_off,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      _obscureText = !_obscureText;
-                    });
-                  },
+        child: Padding(
+          padding: const EdgeInsets.all(25.0),
+          child: Column(
+            mainAxisAlignment:
+                MainAxisAlignment.center, // ✅ căn giữa theo chiều dọc
+            crossAxisAlignment:
+                CrossAxisAlignment.stretch, // ✅ kéo full chiều ngang
+            children: <Widget>[
+              // 🔹 Logo
+              SizedBox(
+                height: 100,
+                child: Image.network(
+                  "https://cdn-icons-png.flaticon.com/512/5087/5087579.png",
+                  height: 80,
                 ),
               ),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return "Vui lòng nhập mật khẩu";
-                }
-                if (value.length < 6) {
-                  return "Mật khẩu phải ít nhất 6 ký tự";
-                }
-                return null;
-              },
-            ),
+              const SizedBox(height: 24),
+              Center(
+                child: const Text(
+                  "Đăng nhập hệ thống POS365",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+              ),
+              const SizedBox(height: 32),
+              TextFormField(
+                controller: _usernameController,
+                decoration: const InputDecoration(
+                  labelText: "User Name",
+                  prefixIcon: Icon(Icons.person),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your name';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 16),
+              // 🔹 Password
+              TextFormField(
+                controller: _passwordController,
+                obscureText: _obscureText,
+                decoration: InputDecoration(
+                  labelText: "Mật khẩu",
+                  prefixIcon: Icon(Icons.lock),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _obscureText ? Icons.visibility : Icons.visibility_off,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _obscureText = !_obscureText;
+                      });
+                    },
+                  ),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Vui lòng nhập mật khẩu";
+                  }
+                  if (value.length < 6) {
+                    return "Mật khẩu phải ít nhất 6 ký tự";
+                  }
+                  return null;
+                },
+              ),
 
-            const SizedBox(height: 24),
-            // 🔹 Button Login
-            ElevatedButton(onPressed: _login, child: const Text("Đăng nhập")),
-          ],
+              const SizedBox(height: 24),
+              // 🔹 Button Login
+              ElevatedButton(onPressed: _login, child: const Text("Đăng nhập")),
+            ],
+          ),
         ),
       ),
     );

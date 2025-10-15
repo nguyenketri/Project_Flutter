@@ -14,7 +14,7 @@ class DetailorderScreen extends StatefulWidget {
 }
 
 class _DetailorderScreenState extends State<DetailorderScreen> {
-  List<DetailOrderModel> lists = [];
+  List<ProductModel> lists = [];
   Future<void> fetchDetail() async {
     final result = await fetchDetailOrder(widget.sessionId, widget.orderId);
     setState(() {
@@ -37,72 +37,89 @@ class _DetailorderScreenState extends State<DetailorderScreen> {
           IconButton(icon: Icon(Icons.refresh), onPressed: fetchDetail),
         ],
       ),
-      body: ListView.builder(
+      body: GridView.builder(
         itemCount: lists.length,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2, // ✅ 2 cột
+          crossAxisSpacing: 12, // khoảng cách ngang giữa 2 card
+          mainAxisSpacing: 12, // khoảng cách dọc giữa các hàng
+          childAspectRatio: 3 / 4, // tỷ lệ khung (ngang/dọc)
+        ),
         itemBuilder: (context, index) {
-          final item = lists[index];
-          return FutureBuilder(
-            future: findProductByid(widget.sessionId, item.productId),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const ListTile(title: Text('Đang tải sản phẩm...'));
-              } else if (snapshot.hasError) {
-                return ListTile(title: Text('Lỗi: ${snapshot.error}'));
-              } else if (snapshot.hasData) {
-                final product = snapshot.data!;
-                return Card(
-                  elevation: 4,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+          final product = lists[index];
+          return Container(
+            margin: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.3),
+                  blurRadius: 6,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  flex: 6,
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.vertical(
+                      top: Radius.circular(12),
+                    ),
+                    child: Image.network(
+                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTq_wwpBx5FO6MoJaZZ3diehy6ODULmCWYMzg&s",
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                    ),
                   ),
+                ),
+                Expanded(
+                  flex: 4,
                   child: Padding(
-                    padding: EdgeInsetsGeometry.all(16.0),
+                    padding: const EdgeInsets.all(8.0),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize:
-                          MainAxisSize.min, // Make column take minimum height
-                      children: <Widget>[
-                        Text(
-                          '${product.name}',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            "${product.name}",
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                            textAlign: TextAlign.center,
                           ),
                         ),
-                        SizedBox(height: 8),
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Expanded(child: Text('Code:${product.code} ')),
-                            SizedBox(width: 5),
-                            Expanded(child: Text('| Price:${product.price} ')),
-                            SizedBox(width: 5),
-                            Expanded(child: Text('| Unit:${product.unit} ')),
-                            SizedBox(width: 5),
-                            Expanded(
-                              child: Text('| Quantity:${product.quantity} '),
+                        const SizedBox(height: 4),
+                        Expanded(
+                          child: Text(
+                            "Code: ${product.code}",
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
                             ),
-                          ],
+                            textAlign: TextAlign.center,
+                          ),
                         ),
-                        SizedBox(height: 12),
-                        Tooltip(
-                          message: "Detail",
-                          child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: Text('Back'),
+                        const SizedBox(height: 4),
+                        Expanded(
+                          child: Text(
+                            "${product.price} đ",
+                            style: const TextStyle(
+                              color: Colors.red,
+                              fontSize: 14,
+                            ),
                           ),
                         ),
                       ],
                     ),
                   ),
-                );
-              } else {
-                return const ListTile(title: Text('Không có dữ liệu'));
-              }
-            },
+                ),
+              ],
+            ),
           );
         },
       ),

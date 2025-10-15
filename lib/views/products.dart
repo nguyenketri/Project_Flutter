@@ -62,7 +62,7 @@ class _ProductScreenState extends State<ProductScreen> {
                   context.read<ProductProvider>().searchProduct(value);
                 },
               )
-            : Text("Danh sách sản phẩm"),
+            : Text("Quản Lý sản phẩm"),
         actions: [
           IconButton(
             icon: Icon(search ? Icons.close : Icons.search),
@@ -93,15 +93,19 @@ class _ProductScreenState extends State<ProductScreen> {
                     return Card(
                       margin: EdgeInsets.all(5),
                       child: ListTile(
+                        leading: Image.network(
+                          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRiY5rKKT5T50FX0QoscDjb_5iURo8sXt1m8A&s",
+                          width: 60,
+                          height: 60,
+                          fit: BoxFit.cover,
+                        ),
                         title: Text(item.name),
                         subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text("Mã: ${item.code}"),
                             Text("Giá: ${item.price}"),
-                            Text("CategoryId: ${item.categoryId ?? 0}"),
                             Text("Category: ${item.category?.name ?? ''}"),
-                            Text("PId: ${item.id}"),
                           ],
                         ),
                         trailing: Row(
@@ -148,10 +152,6 @@ class _ProductScreenState extends State<ProductScreen> {
                                     pro.reset();
                                     pro.fetchNextPage();
                                     showTopSnackBar(context, "Delete Success");
-                                    // Ví dụ: gọi Provider để reload danh sách
-                                    // final provider = Provider.of<ProductProvider>(context, listen: false);
-                                    // await provider.deleteProduct(product.id);
-                                    // provider.reloadProducts();
                                   },
                                 );
                               },
@@ -171,7 +171,7 @@ class _ProductScreenState extends State<ProductScreen> {
                 },
               ),
               Positioned(
-                bottom: 5,
+                bottom: -5,
                 right: 5,
 
                 child: IconButton(
@@ -194,7 +194,7 @@ class _ProductScreenState extends State<ProductScreen> {
                       // hoặc pro.reset() + pro.fetchNextPage();
                     }
                   },
-                  icon: Icon(Icons.add_circle, color: Colors.blue),
+                  icon: Icon(Icons.add_circle, color: Colors.blue, size: 40),
                 ),
               ),
             ],

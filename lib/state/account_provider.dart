@@ -49,14 +49,19 @@ class AccountProvider extends ChangeNotifier {
 
       // Nếu API hỗ trợ search, thì gọi thẳng API search thay vì fetch all
       final allAccounts = await fetchCustomers(_sessionId!, 1, 9999, 0);
-
-      _accounts = allAccounts
-          .where(
-            (item) =>
-                item.name.toLowerCase().contains(keyword.toLowerCase()) ||
-                (item.code ?? '').toLowerCase().contains(keyword.toLowerCase()),
-          )
-          .toList();
+      if (keyword.isEmpty) {
+        _accounts = List.from(allAccounts);
+      } else {
+        _accounts = allAccounts
+            .where(
+              (item) =>
+                  item.name.toLowerCase().contains(keyword.toLowerCase()) ||
+                  (item.code ?? '').toLowerCase().contains(
+                    keyword.toLowerCase(),
+                  ),
+            )
+            .toList();
+      }
     } catch (e) {
       debugPrint("Search error: $e");
     } finally {
