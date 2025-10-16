@@ -1,4 +1,5 @@
 import 'package:first_app/state/authen_provider.dart';
+import 'package:first_app/views/cart.dart';
 import 'package:first_app/views/customers.dart';
 import 'package:first_app/views/home.dart';
 import 'package:first_app/views/login.dart';
@@ -22,6 +23,7 @@ class _SideMenu3ScreenState extends State<SideMenu3Screen> {
     "Customer",
     "Product",
     "Order",
+    "Cart",
     "Đăng Xuất",
   ];
 
@@ -34,6 +36,7 @@ class _SideMenu3ScreenState extends State<SideMenu3Screen> {
       CustomerScreen(sessionId: authProvider.user!.sessionId),
       ProductScreen(sessionId: authProvider.user!.sessionId!),
       OrderScreen(sessionId: authProvider.user!.sessionId!),
+      CartPage(),
       LoginScreen(),
     ];
 

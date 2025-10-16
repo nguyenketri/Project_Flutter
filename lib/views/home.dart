@@ -1,6 +1,8 @@
+import 'package:first_app/models/cartItem.dart';
 import 'package:first_app/models/product.dart';
 import 'package:first_app/repositores/api_order.dart';
 import 'package:first_app/state/authen_provider.dart';
+import 'package:first_app/state/cartProvider.dart';
 import 'package:first_app/state/product_provider.dart';
 import 'package:first_app/utils/formatNumber.dart';
 import 'package:flutter/material.dart';
@@ -166,6 +168,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           padding: const EdgeInsets.all(8.0),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.max,
                             children: [
                               Expanded(
                                 child: Text(
@@ -178,17 +181,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                               const SizedBox(height: 4),
-                              Expanded(
-                                child: Text(
-                                  "UNIT: ${product.unit}",
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                              const SizedBox(height: 4),
+
                               Expanded(
                                 child: Text(
                                   "${product.price} đ",
@@ -196,6 +189,24 @@ class _HomeScreenState extends State<HomeScreen> {
                                     color: Colors.red,
                                     fontSize: 14,
                                   ),
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Expanded(
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    final item = CartItem(
+                                      productId: product.id,
+                                      code: product.code,
+                                      name: product.name,
+                                      price: product.price,
+                                      quantity: 1,
+                                    );
+                                    context.read<CartProvider>().addToCart(
+                                      item,
+                                    );
+                                  },
+                                  child: Text("Add To Cart"),
                                 ),
                               ),
                             ],

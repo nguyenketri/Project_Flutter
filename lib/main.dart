@@ -1,5 +1,6 @@
 import 'package:first_app/state/account_provider.dart';
 import 'package:first_app/state/authen_provider.dart';
+import 'package:first_app/state/cartProvider.dart';
 import 'package:first_app/state/order_provider.dart';
 import 'package:first_app/state/product_provider.dart';
 import 'package:first_app/views/login.dart';
@@ -14,6 +15,7 @@ void main() {
         ChangeNotifierProvider(create: (_) => ProductProvider()),
         ChangeNotifierProvider(create: (_) => AccountProvider()),
         ChangeNotifierProvider(create: (_) => OrderProvider()),
+        ChangeNotifierProvider(create: (_) => CartProvider()),
       ],
 
       child: MyApp(),
